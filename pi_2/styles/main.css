@@ -1,6 +1,5 @@
 #title{
 	background-color: lightgrey;
-	color: blue;
 	font-size: 26px;
 	line-height: 75px;
 	font-weight: bold;
@@ -15,6 +14,7 @@
 	font-size: 16px;
 	grid-column: 2/ 3;
 	color: blue;
+	
 }
 
 p{
@@ -37,4 +37,35 @@ button.menu-object:hover:not(:active){
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	gap: 20px;
+}
+
+.grid-menu2{
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	gap: 20px;
+}
+
+#one{
+	grid-column: 2;
+}
+
+#two{
+	grid-column: 3;
+}
+
+#three{
+	grid-column: 4;
+}
+
+#four{
+	grid-column: 5;
+}
+
+.grid-menu2 img{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#GoToMenu{
+	margin-top: 20px;
 }
