@@ -9,6 +9,7 @@ function start_game(){
 function exit (){
 	if (name != ""){
 		alert("Leaving " + name + "'s game");
+		window.location.assign("../index.html");
 	}
 	name = "";
 }
