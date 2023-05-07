@@ -38,7 +38,7 @@ var options = function(){
 				options_data.cards = this.num;
 				options_data.dificulty = this.dificulty;
 				save();
-				loadpage("./modes.html");
+				loadpage("./phasergame_mode1.html");
 			}
 		}
 	});

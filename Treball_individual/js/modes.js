@@ -3,7 +3,7 @@ function exit (){
 }
 
 function mode1_game(){
-	loadpage("./phasergame_mode1.html");
+	loadpage("./options.html");
 }
 
 function mode2_game(){
