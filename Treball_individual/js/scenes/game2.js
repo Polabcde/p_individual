@@ -10,11 +10,14 @@ class GameScene2 extends Phaser.Scene {
 		this.arraycards = null;
 		this.nivell_completat = false;
 		this.nivell = null;
+		var json2 = localStorage.getItem("niv") || '1';
+		this.primer_nivell = JSON.parse(json2);
 		this.options_data = {
 			cards:2, dificulty:"hard"
 		};
 		this.json = localStorage.getItem("config") || '{"cards":2,"dificulty":"hard"}';
 		this.options_data = JSON.parse(this.json);
+		this.nNivell;
     }
 
 
@@ -29,8 +32,8 @@ class GameScene2 extends Phaser.Scene {
 	}
 	
     create (){	
-		var json2 = localStorage.getItem("niv") || '1';
-		this.nivell = JSON.parse(json2);
+		this.options_data.cards = 2;
+		this.nivell = this.primer_nivell;
 		let cartesdisponibles = ['cb', 'co', 'sb', 'so', 'tb', 'to'];
 		this.arraycards = [];
 		for (var i = 0; i < this.options_data.cards; i++){
@@ -51,6 +54,12 @@ class GameScene2 extends Phaser.Scene {
 		this.add.image(550, 300, arraycards[3]);*/
 		
 		this.cards = this.physics.add.staticGroup();
+		this.add.text(0, 0, 'Nivell:'  , {
+			font: "35px Arial", fill: '#000000'
+		} );
+		this.nNivell = this.add.text(100, 0, this.nivell  , {
+			font: "35px Arial", fill: '#000000'
+		} );
 
 		/*this.cards.create(250, 300, 'back');
 		this.cards.create(350, 300, 'back');
@@ -88,10 +97,11 @@ class GameScene2 extends Phaser.Scene {
 						this.correct++;
 						if (this.correct >= this.options_data.cards){
 							alert("You Win with " + this.score + " points of health.");
-							/*loadpage("../");*/
-							//this.scene.restart();
-							card.destroy();	
-							this.nivell_completat = true;						
+							this.cards.clear();							card.destroy();	
+							this.nivell_completat = true;
+							this.nivell +=1;	
+							this.nNivell.setText(this.nivell);	
+											
 						}
 					}
 					this.firstClick = null;
@@ -106,10 +116,24 @@ class GameScene2 extends Phaser.Scene {
 	
 	update (){	
 		if (this.nivell_completat){
+			this.correct = 0;
 			this.nivell_completat = false;
 			this.nivell +=1;
+			this.firstClick = null;
 			var time = 1000 - this.nivell*10;
 			if (time < 0) {time = 0;}
+			if (this.nivell == 20){
+				this.arraycards.push('sb');
+				this.arraycards.push('sb');
+				this.options_data.cards = 3;
+
+			}
+			if (this.nivell == 30){
+				this.arraycards.push('so');
+				this.arraycards.push('so');
+				this.options_data.cards = 4;
+
+			}
 			this.arraycards.sort(function(){return Math.random() - 0.5});
 			var x = 250;
 			for (let i = 0; i < this.options_data.cards*2; i++){
@@ -122,7 +146,42 @@ class GameScene2 extends Phaser.Scene {
 					this.cards.create(x, 300, 'back');
 					x = x + 100;
 				}		
-				i = 0;
+			var i = 0;
+			this.cards.children.iterate((card)=>{
+				card.card_id = this.arraycards[i];
+				i++;
+				card.setInteractive();
+				card.on('pointerup', () => {
+					card.disableBody(true,true);
+					if (this.firstClick){
+						if (this.firstClick.card_id !== card.card_id){
+							this.score -= this.nivell+20;
+							this.firstClick.enableBody(false, 0, 0, true, true);
+							card.enableBody(false, 0, 0, true, true);
+							if (this.score <= 0){
+								alert("Game Over");
+								loadpage("../");
+							}
+						}
+						else{
+							this.correct++;
+							if (this.correct >= this.options_data.cards){
+								alert("You Win with " + this.score + " points of health.");
+								/*loadpage("../");*/
+								//this.scene.restart();
+								this.cards.clear();	
+								card.destroy();	
+								this.nivell_completat = true;		
+								this.nNivell.setText(this.nivell);						
+							}
+						}
+						this.firstClick = null;
+					}
+					else{
+						this.firstClick = card;
+					}
+				}, card);
+			});
 			}, time);
 		}
 	}
