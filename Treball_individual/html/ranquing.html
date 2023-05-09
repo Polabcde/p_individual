@@ -6,22 +6,19 @@
 		<title> My first game - Options </title>
 	</head>
 	<body>
-		<div id="options_id">
-			<p class="menu-object" id="title">Options menú</p>
-			<div class="menu-object">
-				<label for="labelnumber">Number of cards:</label>
-				<input type="number" id="labelnumber" v-model="num">
-			</div>
-			<div class="menu-object">
-				<p>Dificulty:</p>
-				<input type="radio" id="easy" value="easy" v-model="dificulty" checked>
-				<label for="easy">Easy</label>
-				<input type="radio" id="normal" value="normal" v-model="dificulty" >
-				<label for="normal">Normal</label>
-				<input type="radio" id="hard" value="hard" v-model="dificulty" >
-				<label for="hard">Hard</label>
-			</div>
-			<button class="menu-object" v-on:click="save"> Save </button>
+		<table>
+			<thead>
+				<tr>
+					<th colspan="2">The table header</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>The table body</td>
+					<td>with two columns</td>
+				</tr>
+			</tbody>
+		</table>
 			<button class="menu-object" v-on:click="discard"> Discard </button>
 		</div>
 	</body>
